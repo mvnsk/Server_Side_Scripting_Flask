@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/mystyle.css" />
+      <!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Load d3-cloud -->
+<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+  </head>
+
+  <body onload="headlines()">
+    <div id="form_button_set">
+    <div class="buttonset" style="float:left;position: fixed;display: inline-block;">
+      <div style="border:1px solid lightgray;border-radius: 5px;">
+        <button class="button button1" id="b1" onclick="mypageone()" onmouseover="mouseOver1()"  onmouseout="mouseOut1()">
+          Google News
+        </button>
+        <button class="button button2" id="b2" onclick="searchpage()" onmouseover="mouseOver2()"  onmouseout="mouseOut2()" style="background-color:whitesmoke;color: black;">
+          Search
+        </button>
+      </div>
+    </div>
+    <br /><br /><br />
+    
+    <div class="mydiv" id="form1" style="margin-left:290px;">
+      <form  class="myform"  id="myqueryform" onsubmit="return false">
+        <label for="keyword">
+          Keyword<span style="color: red;">*</span></label>
+        <input type="text" id="keyword" name="keyword" required />&emsp;
+        <label for="from"> From<span style="color: red;">*</span></label>
+        <input type="date" id="from" name="from" required /> &emsp;
+        <label for="to"> To<span style="color: red;">*</span></label>
+        <input type="date" id="to" name="to" required /> <br />
+        <br>
+        
+        <label for="categoryss" style="margin-left: 60px;">Category</label>
+        <select id="category" name="categoryss" onchange="changeSources()" style="margin-right: 40px;">
+          <option id="first_cat" value="" selected>All</option>
+          <option value="business">Business</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="general">General</option>
+          <option value="health">Health</option>
+          <option value="science">Science</option>
+          <option value="sports">Sports</option>
+          <option value="technology">Technology</option>
+        </select>
+        <label for="source"> Source </label>
+        <select id="sourcelist" name="source">
+    
+          <option value="" id="first_source" selected>All</option>
+    
+        </select>
+      
+        <br /><br />
+        <input type="submit" onclick="mysearch()" name="search" value="Search"  id="submitbutton" style="margin-left:197px ;border: none;" />
+        &emsp;
+        <button onclick="allclear()" id="clearbutton" style="border: none;"> Clear </button>
+      </form>
+    </div>
+    </div>
+    <div id="page1"> 
+        <div id="headlinesdiv" style="padding-left: 260px;padding-right: 60px;">   
+        <a href="" id="head_anchor" target="_blank" style="margin: 0px;padding: 0px;display: inline-block;float:left;" >
+      <div class="topfive">
+        <img
+          src=""
+          alt="Notebook"
+          style="width:400px;height: 350px;"
+          id="headlineimage"
+        />
+        <div class="content">
+          <h3 id="headlinetitle" style="text-align: center;"></h3>
+          <p id="headlinedesc" style="text-align: center;"></p>
+        </div>
+      </div>
+    </a>
+  </div> 
+    <div id="my_dataviz" ></div>
+  
+
+    <!--    CNN CARDS DISPLAY  -->
+    <h2 style="text-align: center;margin-bottom: 2px;padding-top: 50px;">CNN</h2>
+    <hr class="new3" />
+    <div class="cnn">
+      <div class="last" style="float: left;padding-right: 13px;">
+      <div class="card" id="cnn_card1">
+        
+        <img src="" alt="Avatar" id="c1" />
+        <div class="container">
+          <h4 id="h1"><b>John Doe</b></h4>
+          <p id="p1">
+            Architect & Engineer Lorem ipsum, dolor sit amet consectetur
+            adipisicing elit. Ratione pariatur asperiores sapiente et minima.
+            Non mollitia, voluptatem atque numquam officiis vel! Libero debitis
+            error nisi quos in neque saepe repellat.
+          </p>
+        </div>
+      </div>
+      </div>
+      <div class="last" style="float: left;padding-right: 13px;">
+      <div class="card" id="cnn_card2">
+        
+        <img src="" alt="Avatar" id="c2" />
+        <div class="container">
+          <h4 id="h2"><b>John Doe</b></h4>
+          <p id="p2">Architect & Engineer</p>
+        </div> </div>
+      </div>
+      <div class="last" style="float: left;padding-right: 13px;">
+      <div class="card" id="cnn_card3">
+        
+        <img src="" alt="Avatar" id="c3" />
+        <div class="container">
+          <h4 id="h3"><b>John Doe</b></h4>
+          <p id="p3">Architect & Engineer</p>
+        </div> </div>
+      </div>
+      <div class="last" style="float: left;padding-right: 13px;">
+      <div class="card" id="cnn_card4">
+        
+        <img src="" alt="Avatar" id="c4" />
+        <div class="container">
+          <h4 id="h4"><b>John Doe</b></h4>
+          <p id="p4">Architect & Engineer</p>
+        </div>
+      </div> </div>
+    </div>
+
+    <!--    FOX CARDS DISPLAYED  -->
+    <br /><br /><br /><br />
+    <h2
+      style="text-align: center;margin-bottom: 2px; padding-top:40px ;clear: both;"
+    >
+      Fox News
+    </h2>
+    <hr class="new3" />
+    <div class="fox">
+     <div class="last" style="float: left;padding-right: 13px;">
+      <div class="card" id="fox_card1">
+        <img src="" alt="Avatar" id="c5" />
+        <div class="container">
+          <h4 id="h5"><b>John Doe</b></h4>
+          <p id="p5">
+            Architect & Engineer Lorem ipsum, dolor sit amet consectetur
+            adipisicing elit. Ratione pariatur asperiores sapiente et minima.
+            Non mollitia, voluptatem atque numquam officiis vel! Libero debitis
+            error nisi quos in neque saepe repellat.
+          </p>
+        </div>
+      </div></div>
+      <div class="last" style="float: left;padding-right: 13px;">
+      <div class="card" id="fox_card2">
+        <img src="" alt="Avatar" id="c6" />
+        <div class="container">
+          <h4 id="h6"><b>John Doe</b></h4>
+          <p id="p6">Architect & Engineer</p>
+        </div>
+      </div></div>
+      <div class="last" style="float: left;padding-right: 13px;">
+      <div class="card" id="fox_card3">
+        <img src="" alt="Avatar" id="c7" />
+        <div class="container">
+          <h4 id="h7"><b>John Doe</b></h4>
+          <p id="p7">Architect & Engineer</p>
+        </div>
+      </div></div>
+      <div class="last" style="float: left;padding-right: 13px;">
+      <div class="card" id="fox_card4" >
+        <img src="" alt="Avatar" id="c8" />
+        <div class="container">
+          <h4 id="h8"><b>John Doe</b></h4>
+          <p id="p8">Architect & Engineer</p>
+        </div>
+      </div></div>
+    </div>
+    </div>
+    
+    <h3 id="nores" style="margin-top: 25px;margin-left: 600px;"> No Results</h3>
+<!-- ***************************** INSERTING CARDS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<div id="allcards" style="margin-top: 25px;">
+
+  <div class="f_card_1">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c11');">
+      <div   id="inner">
+        <span onclick="event.stopPropagation(); closeTab('c11');" class="closebtn" id="q1" >&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i1">
+           <span id="s14"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p16"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p11" style="display: None;"> <b>Author:</b> <span id="s11">This is Author </span></p>
+          <p id="p12" style="display: None;"> <b>Source:</b><span id="s12"> This is Source</span></p>
+          <p id="p13" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s13">This is Date</span></p>
+        </div>
+      </div>
+    <!-- Full-width columns: (hidden by default) -->
+      <div id="c11" class="containerTab" style="display: none;">
+        <p style="padding-left: 100px;" id="p14">kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p15" target="_blank">See Original Post</a>
+        <br>
+
+      </div>
+    
+    </div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_2">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c22');">
+      <div  >
+        <span onclick="event.stopPropagation(); closeTab('c22');" class="closebtn" id="q2">&times;</span>
+        <div> 
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i2">
+              <span id="s24"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p26"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p21" style="display: None;"> <b>Author:</b> <span id="s21">This is Author </span></p>
+          <p id="p22" style="display: None;"> <b>Source:</b><span id="s22"> This is Source</span></p>
+          <p id="p23" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s23">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c22" class="containerTab" style="display: none;">
+        
+        <p style="padding-left: 100px;" id="p24">kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p25" target="_blank" >See Original Post</a>
+        <br>
+
+      </div>
+    </div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_3">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c33');">
+      <div  >
+        <span onclick="event.stopPropagation(); closeTab('c33');" class="closebtn" id="q3">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i3"> 
+              
+              <span id="s34"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p36"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p31" style="display: None;"> <b>Author:</b> <span id="s31">This is Author </span></p>
+          <p id="p32" style="display: None;"> <b>Source:</b><span id="s32"> This is Source</span></p>
+          <p id="p33" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s33">This is Date</span></p>
+            
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c33" class="containerTab" style="display: none;">
+        
+        <p style="padding-left: 100px;" id="p34">kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p35" target="_blank">See Original Post</a>
+        <br>
+
+      </div>
+    </div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_4">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c44');">
+      <div  >
+        <span onclick="event.stopPropagation(); closeTab('c44');" class="closebtn" id="q4">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i4">
+              <span id="s44"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p46"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p41" style="display: None;"> <b>Author:</b> <span id="s41">This is Author </span></p>
+          <p id="p42" style="display: None;"> <b>Source:</b><span id="s42"> This is Source</span></p>
+          <p id="p43" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s43">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c44" class="containerTab" style="display: none;">
+        
+        <p style="padding-left: 100px;" id="p44">kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p45" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_5">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c55');">
+      <div  >
+        <span onclick="event.stopPropagation(); closeTab('c55');" class="closebtn" id="q5">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i5">
+              <span id="s54"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p56"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p51" style="display: None;"> <b>Author:</b> <span id="s51">This is Author </span></p>
+          <p id="p52" style="display: None;"> <b>Source:</b><span id="s52"> This is Source</span></p>
+          <p id="p53" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s53">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c55" class="containerTab" style="display: none;">
+       
+        <p style="padding-left: 100px;" id="p54">kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p55" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <div style="margin-left: 600px; display: none;" id="showmore">
+ <input type="button" onclick="moreCards()" value="Show More" id="shom">
+</div>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_6">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c66');">
+      <div  >
+        <span onclick="event.stopPropagation(); closeTab('c66');" class="closebtn" id="q6">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i6">
+              <span id="s64"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p66"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p61" style="display: None;"> <b>Author:</b> <span id="s61">This is Author </span></p>
+          <p id="p62" style="display: None;"> <b>Source:</b><span id="s62"> This is Source</span></p>
+          <p id="p63" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s63">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columnpes: (hidden by default) -->
+      <div id="c66" class="containerTab" style="display: none;">
+       
+        <p style="padding-left: 100px;" id="p64">kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p65" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_7">
+    <div class="row">
+      <div class="test"  onclick="openTab(event,'c77');">
+      <div>
+        <span onclick="event.stopPropagation(); closeTab('c77');" class="closebtn" id="q7">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i7">
+              <span id="s74"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p76"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p71" style="display: None;"> <b>Author:</b> <span id="s71">This is Author </span></p>
+          <p id="p72" style="display: None;"> <b>Source:</b><span id="s72"> This is Source</span></p>
+          <p id="p73" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s73">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c77" class="containerTab" style="display: none;">
+       
+        <p style="padding-left: 100px;" id="p74">kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p75" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_8">
+    <div class="row">
+      <div class="test"  onclick="openTab(event,'c88');">
+      <div >
+        <span onclick="event.stopPropagation(); closeTab('c88');" class="closebtn" id="q8">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i8">
+              <span id="s84"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p86"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p81" style="display: None;"> <b>Author:</b> <span id="s81">This is Author </span></p>
+          <p id="p82" style="display: None;"> <b>Source:</b><span id="s82"> This is Source</span></p>
+          <p id="p83" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s83">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c88" class="containerTab" style="display: none;">
+       
+        <p style="padding-left: 100px;" id="p84">kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p85" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_9">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c99');">
+      <div >
+        <span onclick="event.stopPropagation(); closeTab('c99');" class="closebtn" id="q9">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i9">
+              <span id="s94"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p96"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p91" style="display: None;"> <b>Author:</b> <span id="s91">This is Author </span></p>
+          <p id="p92" style="display: None;"> <b>Source:</b><span id="s92"> This is Source</span></p>
+          <p id="p93" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s93">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c99" class="containerTab" style="display: none;">
+        
+        <p style="padding-left: 100px;" id="p94">kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p95" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_10">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c10');">
+      <div  >
+        <span onclick="event.stopPropagation(); closeTab('c10');" class="closebtn" id="q10">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i10">
+            <span id="s104"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p106"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p101" style="display: None;"> <b>Author:</b> <span id="s101">This is Author </span></p>
+          <p id="p102" style="display: None;"> <b>Source:</b><span id="s102"> This is Source</span></p>
+          <p id="p103" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s103">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c10" class="containerTab" style="display: none;">
+       
+        <p style="padding-left: 100px;" id="p104" >kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p105" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_11">
+    <div class="row">
+      <div class="test"  onclick="openTab(event,'c101');">
+      <div  onclick="openTab(event,'c101');">
+        <span onclick="event.stopPropagation(); closeTab('c101');" class="closebtn" id="q11">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i11">
+            <span id="s114"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p116"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p111" style="display: None;"> <b>Author:</b> <span id="s111">This is Author </span></p>
+          <p id="p112" style="display: None;"> <b>Source:</b><span id="s112"> This is Source</span></p>
+          <p id="p113" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s113">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c101" class="containerTab" style="display: none;">
+       
+        <p style="padding-left: 100px;" id="p114" >kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p115" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_12">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c12');"> 
+      <div  >
+        <span onclick="event.stopPropagation(); closeTab('c12');" class="closebtn" id="q12">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i12">
+            <span id="s124"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p126"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p121" style="display: None;"> <b>Author:</b> <span id="s121">This is Author </span></p>
+          <p id="p122" style="display: None;"> <b>Source:</b><span id="s122"> This is Source</span></p>
+          <p id="p123" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s123">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c12" class="containerTab" style="display: none;">
+       
+        <p style="padding-left: 100px;" id="p124" >kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p125" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_13">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c13');">
+      <div>
+        <span onclick="event.stopPropagation(); closeTab('c13');" class="closebtn" id="q13">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i13">
+            <span id="s134"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p136"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p131" style="display: None;"> <b>Author:</b> <span id="s131">This is Author </span></p>
+          <p id="p132" style="display: None;"> <b>Source:</b><span id="s132"> This is Source</span></p>
+          <p id="p133" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s133">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c13" class="containerTab" style="display: none;">
+        
+        <p style="padding-left: 100px;" id="p134" >kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p135" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_14">
+    <div class="row">
+      <div class="test" onclick="openTab(event,'c14');">
+      <div >
+        <span onclick="event.stopPropagation(); closeTab('c14');" class="closebtn" id="q14">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i14">
+            <span id="s144"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p146"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p141" style="display: None;"> <b>Author:</b> <span id="s141">This is Author </span></p>
+          <p id="p142" style="display: None;"> <b>Source:</b><span id="s142"> This is Source</span></p>
+          <p id="p143" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s143">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c14" class="containerTab" style="display: none;">
+        
+        <p style="padding-left: 100px;" id="p144" >kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p145" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div class="f_card_15">
+    <div class="row">
+      <div class="test"  onclick="openTab(event,'c15');">
+      <div>
+        <span onclick="event.stopPropagation(); closeTab('c15');" class="closebtn" id="q15">&times;</span>
+        <div >
+          <h3> <img src="" alt="image missing" width="100px" height="100px"
+              style="float: left;padding:10px" id="i15">
+            <span id="s154"> gfgheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </span></h3>
+          <p style="word-wrap:break-word;" id="p156"> MAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad </p>
+          <p id="p151" style="display: None;"> <b>Author:</b> <span id="s151">This is Author </span></p>
+          <p id="p152" style="display: None;"> <b>Source:</b><span id="s152"> This is Source</span></p>
+          <p id="p153" style="display: None;padding-left:100px ;"> <b>Date:</b> <span id="s153">This is Date</span></p>
+        </div>
+
+      </div>
+
+      <!-- Full-width columns: (hidden by default) -->
+      <div id="c15" class="containerTab" style="display: none;">
+       <p style="padding-left: 100px;" id="p154" >kkkkkkkkkkkkkkkkkkf </p>
+        <a href="" style="padding-left: 100px;" id="p155" target="_blank">See Original Post</a>
+        <br>
+
+      </div></div>
+    </div>
+  </div>
+  <br>
+  <!-- CARD INSERTED --------------------------------------------->
+  <div style="margin-left: 600px; display: none;" id="showless">
+    <input type="button" onclick="lessCards()" value="Show Less" id="shol">
+   </div>
+
+
+
+
+
+</div>
+
+    <script  type="application/javascript" src="/static/code.js"></script>
+  
+
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    
+      <div>
+        <button class="button button1" style="background-color:whitesmoke;">
+          Google News
+        </button>
+        <button class="button button2" style="background-color: gray ; color: white; ">
+          Search 
+        </button>
+      </div>
+    <div class="myform">
+      <form action="">
+        <label for="keyword"> Keyword<span style="color: red;">*</span></label>
+        <input type="text" id="keyword" name="keyword" required>&emsp;
+        <label for="keyword"> From<span style="color: red;">*</span></label>
+        <input type="date" id="from" name="from" required> &emsp;
+        <label for="keyword"> To<span style="color: red;">*</span></label>
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="All">All</option>
+          <option value="Business">Business</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="General">General</option>
+          <option value="Health">Health</option>
+          <option value="Science">Science</option>
+          <option value="Sports">Sports</option>
+          <option value="Technology">Technology</option>
+         
+        </select>
+
+        
+        <input type="date" id="to" name="to" required><br>
+        <input type="submit" name="search" value="Search"> &emsp;
+        <input type="reset" name="clear" value="Clear" >
+      </form>
+    </div>
+    <div class="container">
+    
+      {% for new, des, i in context %}
+    
+      <img src="{{i}}" alt="">
+      <h3>News: </h3> {{new}}
+      <h4>Description: </h4> {{des}}
+    
+      {% endfor %}
+    
+    
+    </div>
+  
+  </body>
+</ht
